@@ -1,6 +1,6 @@
 package io.gic.cinema.controller;
 
-import io.gic.cinema.domain.Booking;
+import io.gic.cinema.core.BookingManager;
 import io.gic.cinema.domain.Cinema;
 
 import static io.gic.cinema.ui.UserInterface.*;
@@ -8,17 +8,17 @@ import static io.gic.cinema.ui.UserInterface.*;
 public class BookingController {
 
     private Cinema cinema;
-    private Booking booking;
+    private BookingManager bookingManager;
 
     public void start() {
         cinema = readCinemaDetails("GIC Cinemas");
-        booking = new Booking(cinema.getRows(), cinema.getSeatsPerRow());
-        bookingWorkflow(cinema, booking);
+        bookingManager = new BookingManager(cinema.getRows(), cinema.getSeatsPerRow());
+        bookingWorkflow(cinema, bookingManager);
     }
 
-    private void bookingWorkflow(Cinema cinema, Booking booking) {
+    private void bookingWorkflow(Cinema cinema, BookingManager bookingManager) {
         do {
-            int choice = acceptChoice(cinema.getName(), cinema.getMovieName(), booking.getNumberOfTicketsAvailable());
+            int choice = acceptChoice(cinema.getName(), cinema.getMovieName(), bookingManager.getNumberOfTicketsAvailable());
             switch (choice) {
                 case 1:
                     acceptBooking();
@@ -36,7 +36,7 @@ public class BookingController {
     }
 
     private void exit() {
-        printBookings(booking.getBookingChart(), null);
+        printBookings(bookingManager.getBookingChart(), null);
         prompt(CYAN+"Thanks for using " + cinema.getName() + " system. Bye!"+ RESET);
         System.exit(0);
     }
@@ -45,20 +45,20 @@ public class BookingController {
         String bookingId = getUserInput("Enter booking ID, or enter blank to go back to main menu:");
         if (bookingId.isEmpty()) {
             return;
-        } else if (!booking.isBookingPresent(bookingId)) {
+        } else if (!bookingManager.isBookingPresent(bookingId)) {
             promptError("Booking ID " + bookingId + " is NOT present. Please try again.");
             return;
         }
-        printBookings(booking.getBookingChart(), bookingId);
+        printBookings(bookingManager.getBookingChart(), bookingId);
     }
 
     private void acceptBooking() {
-        if (booking.getNumberOfTicketsAvailable() == 0) {
+        if (bookingManager.getNumberOfTicketsAvailable() == 0) {
             promptError("Sorry, no tickets available for booking.");
             return;
         }
-        int numberOfTickets = acceptNumberOfTickets(booking.getNumberOfTicketsAvailable());
-        booking.acceptBookingDetails(numberOfTickets);
+        int numberOfTickets = acceptNumberOfTickets(bookingManager.getNumberOfTicketsAvailable());
+        bookingManager.acceptBookingDetails(numberOfTickets);
     }
 
 }

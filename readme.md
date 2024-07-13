@@ -46,5 +46,8 @@ For a detailed explanation of the code flow, including how the components intera
    ```
    
 ### Execution Recording
-In case of build and setup failure, you can see the execution recording, please refer to the `movie-ticket-booking-running-flow.mov` in the project root. This video demonstrates running flow of application.
-[![watch movie ticket booking execution flow](thumbnail.jpg)](https://www.youtube.com/watch?v=kimRjogGEDs)
+In case of build or setup failure, you can see the execution recording, please refer to the `movie-ticket-booking-running-flow.mov` in the project root or click on below thumbnail. Video demonstrates running flow of application.
+
+<a href="https://www.youtube.com/watch?v=kimRjogGEDs" target="_blank">
+<img src="thumbnail.jpg" alt="Watch the video">
+</a>

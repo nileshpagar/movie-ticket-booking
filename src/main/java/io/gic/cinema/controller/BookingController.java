@@ -2,7 +2,6 @@ package io.gic.cinema.controller;
 
 import io.gic.cinema.domain.Booking;
 import io.gic.cinema.domain.Cinema;
-import io.gic.cinema.ui.UserInterface;
 
 import static io.gic.cinema.ui.UserInterface.*;
 
@@ -12,7 +11,7 @@ public class BookingController {
     private Booking booking;
 
     public void start() {
-        cinema = UserInterface.readCinemaDetails("GIC Cinemas");
+        cinema = readCinemaDetails("GIC Cinemas");
         booking = new Booking(cinema.getRows(), cinema.getSeatsPerRow());
         bookingWorkflow(cinema, booking);
     }
@@ -43,7 +42,7 @@ public class BookingController {
     }
 
     private void checkBooking() {
-        String bookingId = UserInterface.getUserInput("Enter booking ID, or enter blank to go back to main menu:");
+        String bookingId = getUserInput("Enter booking ID, or enter blank to go back to main menu:");
         if (bookingId.isEmpty()) {
             return;
         } else if (!booking.isBookingPresent(bookingId)) {

@@ -18,7 +18,7 @@ public class UserInterface {
     }
 
     public static int acceptChoice(String cinemaName, String movieName, int numberOfSeats) {
-        return MainView.acceptChoice(cinemaName, movieName, numberOfSeats);
+        return ChoiceView.acceptChoice(cinemaName, movieName, numberOfSeats);
     }
 
     public static int acceptNumberOfTickets(int numberOfTicketsAvailable) {
@@ -40,6 +40,5 @@ public class UserInterface {
 
     public static void promptError(String message) {
         System.out.println(RED +message+ RESET);
-        System.out.println(" ");
     }
 }

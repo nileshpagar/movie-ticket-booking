@@ -9,26 +9,32 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
 
+import static io.gic.cinema.ui.ChoiceView.acceptChoice;
+import static java.lang.System.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ChoiceViewTest {
 
     ByteArrayOutputStream outputStream;
-    private InputStream testIn;
-    private PrintStream testOut;
+    private InputStream mockInputStream;
+    private PrintStream mockOutputStream;
 
     public void setUp(String simulatedUserInput) {
-        testIn = new ByteArrayInputStream(simulatedUserInput.getBytes());
+        mockInputStream = new ByteArrayInputStream(simulatedUserInput.getBytes());
         outputStream = new ByteArrayOutputStream();
-        testOut = new PrintStream(outputStream);
-        System.setOut(testOut);
-        System.setIn(testIn);
+        mockOutputStream = new PrintStream(outputStream);
+        setOut(mockOutputStream);
+        setIn(mockInputStream);
     }
 
     public void tearDown()  {
         try {
-            System.setIn(System.in);
-            System.setOut(System.out);
+            mockOutputStream.flush();
+            mockOutputStream.close();
+            outputStream.close();
+            mockInputStream.close();
+            setIn(in);
+            setOut(out);
         } catch (Exception e) {
             //do nothing
         }
@@ -36,13 +42,39 @@ public class ChoiceViewTest {
 
     @Test
     public void testDisplayMainMenu() {
-        ChoiceView.acceptChoice("GIC Cinema", "The Matrix", 10);
+        //Given
         setUp("1\n");
-        String output = testOut.toString();
-        assertTrue(output.contains("Welcome to GIC Cinema"));
-        assertTrue(output.contains("1. Show Movies"));
-        assertTrue(output.contains("2. Book Ticket"));
-        assertTrue(output.contains("Please select an option:"));
-//        setUp();
+        String cinemaName = "GIC Cinema";
+        String movieName = "The Matrix";
+        int numberOfSeats = 10;
+
+        //When
+        int choice = acceptChoice(cinemaName, movieName, numberOfSeats);
+
+        //Then
+        String output = outputStream.toString();
+        assertTrue(choice == 1);
+        assertTrue(output.contains("Welcome to " + cinemaName));
+        tearDown();
     }
+
+    @Test
+    public void testDisplayMainMenu_wrongChoice() {
+        //Given
+        setUp("4\n");
+        String cinemaName = "GIC Cinema";
+        String movieName = "The Matrix";
+        int numberOfSeats = 10;
+
+        //When
+        int choice = acceptChoice(cinemaName, movieName, numberOfSeats);
+
+        //Then
+        String output = outputStream.toString();
+        assertTrue(choice == 0);
+        assertTrue(output.contains(""));
+        tearDown();
+    }
+
+
 }

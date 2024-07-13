@@ -1,10 +1,7 @@
 package io.gic.cinema.ui;
 
 import io.gic.cinema.domain.Cinema;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 
 import java.io.*;
 import java.util.concurrent.atomic.AtomicReference;
@@ -17,8 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class CinemaViewTest {
 
     ByteArrayOutputStream outputStream;
-    private InputStream mockInputStream;
-    private PrintStream mockOutputStream;
+    InputStream mockInputStream;
+    PrintStream mockOutputStream;
 
     public void setUp(String simulatedUserInput) {
         mockInputStream = new ByteArrayInputStream(simulatedUserInput.getBytes());
@@ -28,11 +25,13 @@ public class CinemaViewTest {
         setIn(mockInputStream);
     }
 
+    @AfterEach
     public void tearDown()  {
         try {
+            outputStream.flush();
             mockOutputStream.flush();
-            mockOutputStream.close();
             outputStream.close();
+            mockOutputStream.close();
             mockInputStream.close();
             setIn(in);
             setOut(out);
@@ -42,9 +41,7 @@ public class CinemaViewTest {
     }
 
 
-    @Test
-    @Order(1)
-    public void test_readCinemaDetails() {
+    void test_readCinemaDetails() {
         // Given
         String cinemaName = "GIC Cinemas";
         int rows = 5;
@@ -60,7 +57,6 @@ public class CinemaViewTest {
         assertEquals(movieName, cinema.getMovieName());
         assertEquals(rows, cinema.getRows());
         assertEquals(seatsPerRow, cinema.getSeatsPerRow());
-        tearDown();
     }
 
     @Test
@@ -75,12 +71,11 @@ public class CinemaViewTest {
         new Thread(() -> cinema.set(CinemaView.readCinemaDetails(cinemaName))).start();  //executing ASYNC as the method is blocking till we get the correct input from the user.
         Thread.sleep(50);
 
-        mockOutputStream.flush();
         // Then
+        mockOutputStream.flush();
         assertEquals(null, cinema.get());
         assertTrue(outputStream.toString().trim().contains("Invalid input. Please try again."));
         setUp("A 1 2");
-        tearDown();
     }
 
 

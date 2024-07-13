@@ -1,21 +1,19 @@
 package io.gic.cinema.ui;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.PrintStream;
+import java.io.*;
 
 import static io.gic.cinema.ui.ChoiceView.acceptChoice;
 import static java.lang.System.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ChoiceViewTest {
 
     ByteArrayOutputStream outputStream;
-    private InputStream mockInputStream;
-    private PrintStream mockOutputStream;
+    InputStream mockInputStream;
+    PrintStream mockOutputStream;
 
     public void setUp(String simulatedUserInput) {
         mockInputStream = new ByteArrayInputStream(simulatedUserInput.getBytes());
@@ -25,11 +23,13 @@ public class ChoiceViewTest {
         setIn(mockInputStream);
     }
 
-    public void tearDown()  {
+    @AfterEach
+    public  void tearDown()  {
         try {
+            outputStream.flush();
             mockOutputStream.flush();
-            mockOutputStream.close();
             outputStream.close();
+            mockOutputStream.close();
             mockInputStream.close();
             setIn(in);
             setOut(out);
@@ -39,7 +39,8 @@ public class ChoiceViewTest {
     }
 
     @Test
-    public void testDisplayMainMenu() {
+    @Order(1)
+    public void testDisplayMainMenu() throws IOException {
         //Given
         setUp("1\n");
         String cinemaName = "GIC Cinema";
@@ -50,13 +51,14 @@ public class ChoiceViewTest {
         int choice = acceptChoice(cinemaName, movieName, numberOfSeats);
 
         //Then
+        outputStream.flush();
         String output = outputStream.toString();
         assertTrue(choice == 1);
         assertTrue(output.contains("Welcome to " + cinemaName));
-        tearDown();
     }
 
     @Test
+    @Order(2)
     public void testDisplayMainMenu_wrongChoice() {
         //Given
         setUp("4\n");
@@ -71,7 +73,6 @@ public class ChoiceViewTest {
         String output = outputStream.toString();
         assertTrue(choice == 0);
         assertTrue(output.contains(""));
-        tearDown();
     }
 
 

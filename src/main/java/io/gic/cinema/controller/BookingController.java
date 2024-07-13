@@ -2,7 +2,6 @@ package io.gic.cinema.controller;
 
 import io.gic.cinema.domain.Booking;
 import io.gic.cinema.domain.Cinema;
-import io.gic.cinema.ui.UserInterface;
 
 import static io.gic.cinema.ui.UserInterface.*;
 
@@ -50,7 +49,7 @@ public class BookingController {
             promptError("Booking ID " + bookingId + " is NOT present. Please try again.");
             return;
         }
-        UserInterface.printBookings(booking.getBookingChart(), bookingId);
+        printBookings(booking.getBookingChart(), bookingId);
     }
 
     private void acceptBooking() {

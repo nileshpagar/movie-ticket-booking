@@ -1,7 +1,6 @@
 package io.gic.cinema.ui;
 
 import static io.gic.cinema.ui.UserInterface.*;
-import static io.gic.cinema.ui.UserInterface.lineBreak;
 import static java.lang.Integer.parseInt;
 
 public class BookingView {
@@ -10,7 +9,7 @@ public class BookingView {
         int numberOfTickets;
         while(true) {
             try {
-                numberOfTickets = parseInt(UserInterface.getUserInput("Enter number of tickets to book, or enter blank to go back to main menu:"));
+                numberOfTickets = parseInt(getUserInput("Enter number of tickets to book, or enter blank to go back to main menu:"));
                 if (numberOfTickets < 1) {
                     promptError(String.format("Sorry, please enter value between 1 to %d.", numberOfTicketsAvailable));
                     continue;
@@ -28,7 +27,7 @@ public class BookingView {
     }
 
 
-    static void printBookings(String[][] booking, String bookingId) {
+    static String printBookings(String[][] booking, String bookingId) {
         StringBuilder output = new StringBuilder();
 
         printHeader(output, booking);
@@ -37,6 +36,7 @@ public class BookingView {
 
         //print full booking details in BLUE color
         prompt(BLUE + output + RESET);
+        return output.toString();
     }
 
     private static void printHeader(StringBuilder output, String[][] booking) {

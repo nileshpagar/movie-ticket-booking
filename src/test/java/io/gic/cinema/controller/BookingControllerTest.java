@@ -1,12 +1,10 @@
 package io.gic.cinema.controller;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class BookingControllerTest {
@@ -16,7 +14,6 @@ public class BookingControllerTest {
     private final PrintStream originalOut = System.out;
     private final InputStream originalIn = System.in;
 
-//    @BeforeEach
     public void setUp() {
         // Prepare the sequence of inputs for the scenario
         String data = "Inception 8 10\n";
@@ -25,7 +22,6 @@ public class BookingControllerTest {
         System.setIn(inContent);
     }
 
-//    @AfterEach
     public void tearDown() {
         System.setOut(originalOut);
         System.setIn(originalIn);

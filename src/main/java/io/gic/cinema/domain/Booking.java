@@ -3,6 +3,7 @@ package io.gic.cinema.domain;
 import java.util.Arrays;
 
 import static io.gic.cinema.ui.UserInterface.*;
+import static java.lang.Integer.parseInt;
 import static java.util.Arrays.stream;
 
 public class Booking {
@@ -13,6 +14,10 @@ public class Booking {
     public Booking(Integer rows, Integer seatsPerRow) {
         bookingCounter = 1;
         this.bookingMap = new String[rows][seatsPerRow];
+    }
+
+    public String[][] getBookingChart() {
+        return bookingMap;
     }
 
     public void acceptBookingDetails(Integer numberOfTickets) {
@@ -29,7 +34,7 @@ public class Booking {
                     bookingMap = bookingCopy;
                     prompt(String.format(BLUE+"Booking ID: %s confirmed." + RESET, bookingId));
                     break;
-                } else if(!newPosition.matches("^[A-Z][0-9]{2}$")){
+                } else if(!newPosition.matches("^[A-Z](0[1-9]|[1-9][0-9])$")){
                     promptError(String.format("New position: %s is wrong. Please enter in [row][seat-no] format. e.g. B03,C10 etc.", newPosition));
                     newPosition = previousPosition;
                     bookingCopy = shallowCopyOf(bookingMap);
@@ -57,66 +62,12 @@ public class Booking {
             return null;
         }
         int row = maxRows - (position.charAt(0) - 'A') - 1; // Convert 'A' to m-1, 'B' to m-2, etc.
-        int seat = Integer.parseInt(position.substring(1)) - 1; // Convert seat number to 0-based index
+        int seat = parseInt(position.substring(1)) - 1; // Convert seat number to 0-based index
         return new int[]{row, seat};
     }
 
     public boolean isBookingPresent(String bookingId) {
         return stream(bookingMap).flatMap(Arrays::stream).anyMatch(seat -> seat != null && seat.equals(bookingId));
-    }
-
-    public void printBookings(String bookingId){
-        printBookings(this.bookingMap, bookingId);
-    }
-
-    private void printBookings(String[][] booking, String bookingId) {
-        StringBuilder output = new StringBuilder();
-
-        printHeader(output, booking);
-        printSeatingChart(output, booking, bookingId);
-        printFooter(output, booking);
-
-        //print full booking details in BLUE color
-        prompt(BLUE + output.toString() + RESET);
-    }
-
-    private void printHeader(StringBuilder output, String[][] booking) {
-        int seatsPerRow = booking[0].length;
-        String cinemaTheatre = "SCREEN";
-        int headerPaddingSize = (seatsPerRow * 3 + 2)/2 - cinemaTheatre.length()/2;  // 3 characters per seat + 2 spaces
-        String padding = String.format("%" + headerPaddingSize + "s", "");
-        output.append(lineBreak);
-        output.append(padding).append(cinemaTheatre).append(padding);   // center align cinema name
-        output.append(lineBreak);
-        output.append(String.format("%" + ((headerPaddingSize * 2) + cinemaTheatre.length()) + "s", "-").replace(' ', '-'));  // underline cinema name
-        output.append(lineBreak);
-    }
-
-    private void printSeatingChart(StringBuilder output, String[][] booking, String bookingId) {
-        int rows = booking.length;
-        int seatsPerRow = booking[0].length;
-        for (int i = rows - 1; i >= 0; i--) {
-            output.append((char) ('A' + rows - i - 1)).append(" ");
-            for (int j = 0; j < seatsPerRow; j++) {
-                if (booking[i][j] == null) {
-                    output.append(" . ");
-                } else if (booking[i][j].equals(bookingId)) {
-                    output.append(" o ");
-                } else {
-                    output.append(" # ");
-                }
-            }
-            output.append(lineBreak);
-        }
-    }
-
-    private void printFooter(StringBuilder output, String[][] booking) {
-        int seatsPerRow = booking[0].length;
-        output.append(" ");
-        for (int i = 1; i <= seatsPerRow; i++) {
-            output.append(String.format("%3d", i));   // print seat numbers starting from 1
-        }
-        output.append(lineBreak).append(lineBreak);
     }
 
     public int getNumberOfTicketsAvailable() {
@@ -165,7 +116,6 @@ public class Booking {
     }
 
     private String[][] reservePreferred(int numberOfTickets, String[][] booking, String bookingId, int[] position) {
-        int rows = booking.length;
         int seatsPerRow = booking[0].length;
         int startRow = position[0];
         int startSeat = position[1];
@@ -181,7 +131,7 @@ public class Booking {
 
         // If tickets still need to be allocated, use the default allocation method for the remaining tickets
         if (ticketsToAllocate > 0) {
-            booking = reserveDefault(ticketsToAllocate, booking, bookingId, startRow);
+            reserveDefault(ticketsToAllocate, booking, bookingId, startRow);
         }
 
         return booking;

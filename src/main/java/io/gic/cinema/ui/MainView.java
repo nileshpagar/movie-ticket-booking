@@ -6,8 +6,8 @@ import static java.lang.Integer.parseInt;
 
 public class MainView {
 
-    public static int acceptChoice(String cinemaName, String movieName, int numberOfSeats) {
-        int choice = 0;
+    static int acceptChoice(String cinemaName, String movieName, int numberOfSeats) {
+        int choice;
         while(true) {
             prompt(" ");
             prompt("Welcome to " + cinemaName);

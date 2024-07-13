@@ -9,8 +9,8 @@ import static java.lang.Integer.parseInt;
 
 public class CinemaView {
 
-    public static Cinema readCinemaDetails(String cinemaName) {
-        Cinema cinema = null;
+    static Cinema readCinemaDetails(String cinemaName) {
+        Cinema cinema;
         while(true) {
             try {
                 String bookingRequest = getUserInput("Please define movie title and seating map in [Title] [Row] [SeatsPerRow] format:");

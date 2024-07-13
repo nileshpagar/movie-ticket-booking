@@ -25,6 +25,10 @@ public class UserInterface {
         return BookingView.acceptNumberOfTickets(numberOfTicketsAvailable);
     }
 
+    public static void printBookings(String[][] booking, String bookingId) {
+        BookingView.printBookings(booking, bookingId);
+    }
+
     public static String getUserInput(String message) {
         prompt(message);
         return scanner.nextLine().trim();

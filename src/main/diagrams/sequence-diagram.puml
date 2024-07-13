@@ -1,0 +1,68 @@
+@startuml
+actor User
+participant "Application" as App #94b797
+box "controller" #eab676
+    participant "BookingController" as BC
+end box
+
+box "core" #skyblue
+    participant "BookingIdGenerator" as BIG
+    participant "BookingManager" as BM
+    participant "ReservationHelper" as RH
+end box
+
+box "domain" #a8bfb7
+    participant "Cinema" as Cinema
+    participant "Booking" as B
+end box
+
+box "ui" #a89dc3
+    participant "Console" as C
+'    participant "CinemaView" as CV
+'    participant "ChoiceView" as ChV
+'    participant "BookingView" as BV
+end box
+
+User -> App: main(args)
+App -> BC --++ : start()
+    BC -> C --++ : readCinemaDetails()
+      C -> Cinema : createCinema
+    return
+'    C -> CV: readCinemaDetails()
+'    CV -> Cinema: generates()
+'    CV --> C: cinemaDetails()
+    return cinema
+
+'    BC -> BM : instantiate
+'    BM -> BIG : instantiate
+'    BM -> RH : instantiate
+    BC -> BC : startBookingWorkflow()
+    BC -> User : showChoices
+    alt switchChoice
+        BC -> User : 1. acceptBooking()
+        BC -> User : 2. showBooing()
+        BC -> User : 3. exit()
+    end
+    User -> BC : choose()
+
+    alt #lightgrey 1. acceptBooking
+
+    end
+
+    alt #lightgrey 2. viewBooking
+        BC -> C : promptForBookingId()
+        User --> C : enters bookingId
+        BC -> BM --++ : isBookingPresent(bookingId)
+            BM -> B --++ : getBookingChart()
+            return
+        BC -> BC : printBookingChart()
+
+    end
+
+    alt #orange 3. exit
+        BC -> BC : printBookingChart()
+        BC --> App
+    end
+
+
+@enduml

@@ -3,7 +3,7 @@ package io.gic.cinema.controller;
 import io.gic.cinema.core.BookingManager;
 import io.gic.cinema.domain.Cinema;
 
-import static io.gic.cinema.ui.UserInterface.*;
+import static io.gic.cinema.ui.Console.*;
 
 public class BookingController {
 
@@ -35,10 +35,13 @@ public class BookingController {
         } while (true);
     }
 
-    private void exit() {
-        printBookings(bookingManager.getBookingChart(), null);
-        prompt(CYAN+"Thanks for using " + cinema.getName() + " system. Bye!"+ RESET);
-        System.exit(0);
+    private void acceptBooking() {
+        if (bookingManager.getNumberOfTicketsAvailable() == 0) {
+            promptError("Sorry, no tickets available for booking.");
+            return;
+        }
+        int numberOfTickets = acceptNumberOfTickets(bookingManager.getNumberOfTicketsAvailable());
+        bookingManager.acceptBookingDetails(numberOfTickets);
     }
 
     private void checkBooking() {
@@ -52,13 +55,10 @@ public class BookingController {
         printBookings(bookingManager.getBookingChart(), bookingId);
     }
 
-    private void acceptBooking() {
-        if (bookingManager.getNumberOfTicketsAvailable() == 0) {
-            promptError("Sorry, no tickets available for booking.");
-            return;
-        }
-        int numberOfTickets = acceptNumberOfTickets(bookingManager.getNumberOfTicketsAvailable());
-        bookingManager.acceptBookingDetails(numberOfTickets);
+    private void exit() {
+        printBookings(bookingManager.getBookingChart(), null);
+        prompt(CYAN+"Thanks for using " + cinema.getName() + " system. Bye!"+ RESET);
+        System.exit(0);
     }
 
 }

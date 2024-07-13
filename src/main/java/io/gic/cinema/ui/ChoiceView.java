@@ -1,7 +1,7 @@
 package io.gic.cinema.ui;
 
-import static io.gic.cinema.ui.UserInterface.getUserInput;
-import static io.gic.cinema.ui.UserInterface.prompt;
+import static io.gic.cinema.ui.Console.getUserInput;
+import static io.gic.cinema.ui.Console.prompt;
 import static java.lang.Integer.parseInt;
 
 public class ChoiceView {

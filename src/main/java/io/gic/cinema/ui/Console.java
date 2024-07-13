@@ -4,7 +4,7 @@ import io.gic.cinema.domain.Cinema;
 
 import java.util.Scanner;
 
-public class UserInterface {
+public class Console {
 
     public static final String RESET = "\033[0m";  // Text Reset
     public static final String RED = "\033[0;31m";    // RED

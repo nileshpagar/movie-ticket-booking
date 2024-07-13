@@ -29,4 +29,5 @@ public class Cinema {
     public String getName() {
         return name;
     }
+
 }

@@ -4,8 +4,8 @@ import io.gic.cinema.domain.Cinema;
 
 import java.util.Arrays;
 
-import static io.gic.cinema.ui.UserInterface.getUserInput;
-import static io.gic.cinema.ui.UserInterface.promptError;
+import static io.gic.cinema.ui.Console.getUserInput;
+import static io.gic.cinema.ui.Console.promptError;
 import static java.lang.Integer.parseInt;
 
 public class CinemaView {

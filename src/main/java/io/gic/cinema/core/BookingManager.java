@@ -4,7 +4,7 @@ import io.gic.cinema.domain.Booking;
 
 import java.util.Arrays;
 
-import static io.gic.cinema.ui.UserInterface.*;
+import static io.gic.cinema.ui.Console.*;
 import static java.lang.Integer.parseInt;
 
 public class BookingManager {

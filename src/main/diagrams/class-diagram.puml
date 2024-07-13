@@ -1,0 +1,94 @@
+@startuml
+
+package io {
+    package gic {
+        package cinema {
+            class Application #94b797{
+                {static}+ main(args: String[])
+            }
+            package controller #eab676 {
+                class BookingController {
+                    - bookingManager: BookingManager
+                    - cinema: Cinema
+                    + acceptBooking()
+                    + bookingWorkflow(cinema: Cinema, bookingManager: BookingManager)
+                    + checkBooking()
+                    + exit()
+                    + start()
+                }
+            }
+
+            package core #skyblue{
+                class BookingIdGenerator {
+                    - bookingCounter : Integer
+                    + nextBookingId(): String
+                    + BookingIdGenerator()
+                }
+                class BookingManager {
+                    - bookingIdGenerator: BookingIdGenerator
+                    - booking: Booking
+
+                    + BookingManager()
+
+                    + getBookingChart(booking: String[][])
+                    + acceptBookingDetails(numberOfTickets: int): Booking
+                    + isBookingPresent(bookingId: String)
+                    + getNumberOfTicketsAvailable()
+                }
+                class ReservationHelper {
+                    + reserve(numberOfTickets:int, booking:(String)[][], bookingId:(String), position: int[])
+                }
+            }
+            package domain #a8bfb7{
+                class Cinema {
+                    - name: String
+                    - movieName: (String)
+                    - rows: Integer
+                    - seatsPerRows: Integer
+                    + Cinema(name: String)
+                }
+                class Booking {
+                    - bookingChart: String[][]
+                    - reservationHelper: ReservationHelper
+                    + Booking(rows: int, seatsPerRows: int)
+
+                    + reserve()
+                    + confirm()
+                    + getBookingChart()
+                    + isBookingPresent()
+                    + getNumberOfTicketsAvailable()
+                }
+            }
+            package ui #a89dc3{
+                class Console {
+                    + {static}readCinemaDetails(cinemaName: String)
+                    + {static}acceptChoice(cinemaName:String, movieName:String, numberOfSeats:int)
+                    + {static}acceptNumberOfTickets(numberOfTicketsAvailable: int)
+                    + {static}printBookings(booking: String[][], booingId: String)
+                    + {static}getUserInput(message: String)
+                    + {static}prompt(message: String)
+                    + {static}promptError(error: String)
+                }
+                class CinemaView {
+                }
+                class ChoiceView {
+                }
+                class BookingView {
+                }
+            }
+        }
+    }
+}
+
+Application --> BookingController : start()
+BookingController --> Console
+Console --> CinemaView
+Console --> ChoiceView
+Console --> BookingView
+CinemaView --> Cinema : generates
+BookingController --> Cinema : uses
+BookingManager --> BookingIdGenerator : uses
+BookingManager --> Booking : instantiates
+Booking --> ReservationHelper : uses
+
+@enduml

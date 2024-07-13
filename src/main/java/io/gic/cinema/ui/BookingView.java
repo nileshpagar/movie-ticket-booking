@@ -1,6 +1,6 @@
 package io.gic.cinema.ui;
 
-import static io.gic.cinema.ui.UserInterface.*;
+import static io.gic.cinema.ui.Console.*;
 import static java.lang.Integer.parseInt;
 
 public class BookingView {

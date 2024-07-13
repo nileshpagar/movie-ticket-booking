@@ -1,4 +1,4 @@
-# GIC Cinemas Booking System
+# Cinema Booking System
 
 Welcome to the  Cinemas Booking System. This document provides a comprehensive guide to help you understand, build, and run the project locally.
 

@@ -1,10 +1,10 @@
 # GIC Cinemas Booking System
 
-Welcome to the GIC Cinemas Booking System. This document provides a comprehensive guide to help you understand, build, and run the project locally.
+Welcome to the  Cinemas Booking System. This document provides a comprehensive guide to help you understand, build, and run the project locally.
 
 ## Overview
 
-The GIC Cinemas Booking System is designed to facilitate the booking of cinema tickets through a simple and intuitive interface. Built with Java and Spring Boot, and managed with Maven, this project encapsulates the core functionalities needed for managing cinema bookings.
+The  Cinemas Booking System is designed to facilitate the booking of cinema tickets through a simple and intuitive interface. Built with Java and Spring Boot, and managed with Maven, this project encapsulates the core functionalities needed for managing cinema bookings.
 
 ### Class Diagram
 
@@ -29,8 +29,8 @@ For a detailed explanation of the code flow, including how the components intera
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/yourusername/gic-cinema-booking.git
-   cd gic-cinema-booking
+   git clone https://github.com/nileshapgar/movie-ticket-booking.git
+   cd movie-ticket-booking
    ```
 2. **Build the Project**
 

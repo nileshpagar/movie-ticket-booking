@@ -4,7 +4,7 @@ Welcome to the  Cinemas Booking System. This document provides a comprehensive g
 
 ## Overview
 
-The  Cinemas Booking System is designed to facilitate the booking of cinema tickets through a simple and intuitive interface. Built with Java and Spring Boot, and managed with Maven, this project encapsulates the core functionalities needed for managing cinema bookings.
+The  Cinemas Booking System is designed to facilitate the booking of cinema tickets through a simple and intuitive interface. Built with Java(oepnjdk 21) and managed with Maven(3.9.6), this project encapsulates the core functionalities needed for managing cinema bookings. Project can rebuilt with jdk 11 or higher and maven 3.6.0 or higher.
 
 ### Class Diagram
 
